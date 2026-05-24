@@ -1,0 +1,120 @@
+<!-- Sidebar Konsisten untuk Semua Halaman Admin - RESPONSIVE VERSION -->
+<style>
+    @media (max-width: 768px) {
+        #sidebar {
+            transform: translateX(-100%);
+            position: fixed;
+            height: 100vh;
+            box-shadow: 20px 0 50px rgba(0, 0, 0, 0.1);
+        }
+
+        #sidebar.open {
+            transform: translateX(0);
+            display: flex !important;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 6, 23, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 10;
+        }
+
+        .sidebar-overlay.open {
+            display: block;
+        }
+    }
+</style>
+
+<div id="sidebarOverlay" class="sidebar-overlay lg:hidden" onclick="toggleSidebar()"></div>
+
+<aside id="sidebar"
+    class="w-72 bg-white/80 dark:bg-[#060b1d]/80 backdrop-blur-xl border-r border-blue-100/50 dark:border-blue-900/20 hidden md:flex flex-col z-20 transition-all duration-500 ease-in-out">
+    <div class="p-8 border-b border-blue-50/50 dark:border-blue-900/10 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+            <div
+                class="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl flex items-center justify-center text-white shadow-xl shadow-blue-500/20">
+                <i class="fas fa-bolt text-lg"></i>
+            </div>
+            <span class="font-black text-2xl text-slate-950 dark:text-white tracking-tighter">StepUp</span>
+        </div>
+        <button onclick="toggleSidebar()" class="md:hidden text-slate-400 hover:text-red-500 transition-all"><i
+                class="fas fa-times text-xl"></i></button>
+    </div>
+
+    <nav class="flex-1 overflow-y-auto p-6 space-y-2 custom-scrollbar">
+        <?php
+            $current_page = basename($_SERVER['PHP_SELF']);
+            $nav_items = [
+                ['label' => 'Core Management', 'type' => 'header'],
+                ['url' => 'dashboard.php', 'icon' => 'fas fa-chart-line', 'text' => 'Dashboard'],
+                ['url' => 'students.php', 'icon' => 'fas fa-user-graduate', 'text' => 'Siswa'],
+                ['url' => 'subjects.php', 'icon' => 'fas fa-layer-group', 'text' => 'Kurikulum'],
+                ['url' => 'challenges.php', 'icon' => 'fas fa-calendar-check', 'text' => 'Misi Mingguan'],
+                ['label' => 'System Content', 'type' => 'header'],
+                ['url' => 'activities.php', 'icon' => 'fas fa-wave-square', 'text' => 'Aktifitas'],
+                ['url' => 'quotes.php', 'icon' => 'fas fa-feather-pointed', 'text' => 'Motivasi'],
+                ['url' => 'inbox.php', 'icon' => 'fas fa-envelope-open-text', 'text' => 'Inbox Broadcast'],
+            ];
+        ?>
+
+        <?php foreach ($nav_items as $item): ?>
+            <?php if (isset($item['type']) && $item['type'] === 'header'): ?>
+                <div class="pt-6 px-5 py-2 text-[10px] font-black text-slate-300 dark:text-slate-500 uppercase tracking-[0.3em] mb-2 first:pt-0">
+                    <?php echo $item['label']; ?>
+                </div>
+            <?php else: ?>
+                <?php $is_active = ($current_page == $item['url']); ?>
+                <a href="<?php echo $item['url']; ?>"
+                    class="w-full flex items-center space-x-4 px-5 py-4 rounded-2xl transition-all group <?php echo $is_active
+                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30'
+                        : 'text-slate-500 dark:text-blue-400/60 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400'; ?>">
+                    <i class="<?php echo $item['icon']; ?> w-6 text-center text-xl transition-transform group-hover:scale-110"></i>
+                    <span class="text-sm font-black uppercase tracking-tight"><?php echo $item['text']; ?></span>
+                </a>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </nav>
+
+
+    <div class="p-6 border-t border-blue-50 dark:border-blue-900/20 bg-slate-50/50 dark:bg-black/20">
+        <a href="settings.php"
+            class="bg-white dark:bg-[#0a1128] rounded-3xl p-5 flex items-center space-x-4 mb-4 border border-blue-100 dark:border-blue-900/30 shadow-sm transition-all hover:shadow-xl hover:-translate-y-1 block group">
+            <div
+                class="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center text-white font-black shadow-lg shadow-blue-500/30 overflow-hidden">
+                <?php if (isset($admin_data['profile_pic']) && $admin_data['profile_pic'] && file_exists('../../uploads/profile_pics/' . $admin_data['profile_pic'])): ?>
+                <img src="../../uploads/profile_pics/<?php echo htmlspecialchars($admin_data['profile_pic']); ?>"
+                    alt="Profile" class="w-full h-full object-cover">
+                <?php elseif (isset($admin_data['full_name'])): ?>
+                <?php echo strtoupper(substr($admin_data['full_name'], 0, 1)); ?>
+                <?php else: ?>
+                A
+                <?php endif; ?>
+            </div>
+            <div class="overflow-hidden">
+                <p class="text-sm font-black text-slate-950 dark:text-white truncate">
+                    <?php echo isset($admin_data['full_name']) ? htmlspecialchars(explode(' ', $admin_data['full_name'])[0]) : 'Admin'; ?>
+                </p>
+            </div>
+        </a>
+        <button onclick="confirmLogout('../auth/logout.php')"
+            class="block w-full py-4 rounded-[2rem] text-[10px] font-black text-white bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 transition-all uppercase tracking-[0.3em] active:scale-95 shadow-lg shadow-red-500/20 flex items-center justify-center space-x-2">
+            <i class="fas fa-sign-out-alt text-sm"></i>
+            <span>LOGOUT SYSTEM</span>
+        </button>
+    </div>
+</aside>
+
+<script>
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('open');
+    }
+</script>
+
+<?php include_once __DIR__ . '/../inc_chat_button.php'; ?>
+<?php include_once __DIR__ . '/../inc_chat_window.php'; ?>
