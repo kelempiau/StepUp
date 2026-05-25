@@ -1,8 +1,8 @@
 FROM php:8.2-apache
 
-# Configure Apache to listen on the $PORT environment variable (default for Cloud Run is 8080)
-# This replaces 80 with the value of $PORT in both the default site configuration and ports configuration
-RUN sed -i 's/80/${PORT}/g' /etc/apache2/sites-available/000-default.conf /etc/apache2/ports.conf
+# Configure Apache to listen on port 8080 (Cloud Run default)
+# Hardcoding 8080 avoids environment variable parsing issues in some Apache versions
+RUN sed -i 's/80/8080/g' /etc/apache2/sites-available/000-default.conf /etc/apache2/ports.conf
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
