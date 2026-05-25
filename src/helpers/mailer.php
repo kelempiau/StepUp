@@ -9,7 +9,10 @@ function sendVerificationEmail($to, $name, $token) {
     $password = 'qocj jfwo hgnm bqcy'; // Gmail App Password
     $subject = 'Verifikasi Akun StepUp LMS';
     
-    $link = "http://localhost:8000/src/auth/verify.php?token=" . $token;
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    $host = $_SERVER['HTTP_HOST'] ?? 'localhost:8000';
+    $base_url = $protocol . '://' . $host;
+    $link = $base_url . "/src/auth/verify.php?token=" . $token;
     
     $message = "
     <html>
