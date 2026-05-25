@@ -4,9 +4,15 @@ $host = getenv('DB_HOST') ?: 'localhost';
 $db_name = getenv('DB_NAME') ?: 'stepup';
 $username = getenv('DB_USER') ?: 'root';
 $password = getenv('DB_PASS') !== false ? getenv('DB_PASS') : '';
+$db_socket = getenv('DB_SOCKET');
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$db_name", $username, $password);
+    if ($db_socket) {
+        $dsn = "mysql:unix_socket=$db_socket;dbname=$db_name";
+    } else {
+        $dsn = "mysql:host=$host;dbname=$db_name";
+    }
+    $pdo = new PDO($dsn, $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     $pdo->exec("SET time_zone = '+07:00'");
