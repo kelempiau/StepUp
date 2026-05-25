@@ -1,9 +1,9 @@
 <?php
 date_default_timezone_set('Asia/Jakarta');
-$host = 'localhost';
-$db_name = 'stepup';
-$username = 'root';
-$password = '';
+$host = getenv('DB_HOST') ?: 'localhost';
+$db_name = getenv('DB_NAME') ?: 'stepup';
+$username = getenv('DB_USER') ?: 'root';
+$password = getenv('DB_PASS') !== false ? getenv('DB_PASS') : '';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$db_name", $username, $password);
