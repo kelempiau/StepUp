@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = $stmt->fetch();
 
     if ($user && password_verify($password, $user['password'])) {
-        if ($user['is_verified'] == 0) {
+        if (isset($user['is_verified']) && $user['is_verified'] == 0) {
             $error = "Email kamu belum diverifikasi. Silakan cek inbox/spam email kamu!";
         } else {
             $_SESSION['user_id']   = $user['id'];
