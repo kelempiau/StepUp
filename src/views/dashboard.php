@@ -1,8 +1,7 @@
-<!-- src/views/dashboard.php -->
 <?php
 // src/views/dashboard.php — StepUp v4
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
 session_start();
 
 // Guest mode: allow access without login, but restrict features

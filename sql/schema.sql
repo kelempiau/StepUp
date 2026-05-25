@@ -1,3 +1,4 @@
+USE stepup;
 -- StepUp LMS - Comprehensive Database Schema
 -- Optimized for MySQL / MariaDB (MyISAM/InnoDB)
 
