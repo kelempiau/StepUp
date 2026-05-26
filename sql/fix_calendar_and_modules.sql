@@ -1,5 +1,5 @@
--- 1. FIX AGENDA KALENDER ERROR (Ubah type jadi category)
-ALTER TABLE calendar_events CHANGE COLUMN type category VARCHAR(50) DEFAULT 'TUGAS';
+-- 1. FIX AGENDA KALENDER ERROR (Tambahkan kolom category)
+ALTER TABLE calendar_events ADD COLUMN category VARCHAR(50) DEFAULT 'TUGAS';
 
 -- 2. ISI MODUL KOSONG UNTUK SEMUA MATA PELAJARAN
 -- Menambahkan Topik
