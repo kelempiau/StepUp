@@ -57,11 +57,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         @keyframes float2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-20px,20px) scale(1.05)} }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center relative p-4">
+<body class="h-screen w-screen overflow-hidden flex items-center justify-center relative p-4">
     <div class="blob1"></div>
     <div class="blob2"></div>
 
-    <div class="relative z-[20] w-full max-w-sm mx-auto card pointer-events-auto min-h-screen flex flex-col justify-center">
+    <div class="relative z-[20] w-full max-w-sm mx-auto card pointer-events-auto">
         <!-- Card -->
         <div class="bg-white/80 backdrop-blur-2xl [ -webkit-backdrop-filter:blur(40px); ] border border-white/70 rounded-3xl shadow-[0_20px_60px_rgba(37,99,235,.12)] overflow-hidden">
 
