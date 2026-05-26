@@ -171,6 +171,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                      data-text="signup_with"
                      data-size="large"
                      data-logo_alignment="left"
+                     data-width="350"
                      style="display: flex; justify-content: center; width: 100%;">
                 </div>
 

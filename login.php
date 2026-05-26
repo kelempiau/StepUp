@@ -145,6 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                          data-text="signin_with"
                          data-size="large"
                          data-logo_alignment="left"
+                         data-width="320"
                          style="display: flex; justify-content: center; width: 100%;">
                     </div>
 
