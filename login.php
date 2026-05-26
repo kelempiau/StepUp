@@ -125,10 +125,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <!-- Guest Access Button -->
                 <a href="src/views/dashboard.php"
-                   class="flex items-center justify-center gap-2 w-full py-3.5 border-2 border-slate-200 hover:border-indigo-400 text-slate-500 hover:text-indigo-600 font-bold rounded-full transition-all hover:bg-indigo-50 text-sm group">
+                   class="flex items-center justify-center gap-2 w-full py-3.5 border-2 border-slate-200 hover:border-indigo-400 text-slate-500 hover:text-indigo-600 font-bold rounded-full transition-all hover:bg-indigo-50 text-sm group mb-3">
                     <i class="fas fa-eye text-slate-400 group-hover:text-indigo-500 transition"></i>
                     Lihat sebagai Tamu
                 </a>
+
+                <!-- Google Login Button -->
+                <div id="g_id_onload"
+                     data-client_id="YOUR_GOOGLE_CLIENT_ID_HERE"
+                     data-context="signin"
+                     data-ux_mode="popup"
+                     data-login_uri="<?php echo (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/src/auth/google_callback.php'; ?>"
+                     data-auto_prompt="false">
+                </div>
+                <div class="g_id_signin"
+                     data-type="standard"
+                     data-shape="pill"
+                     data-theme="outline"
+                     data-text="signin_with"
+                     data-size="large"
+                     data-logo_alignment="left"
+                     style="display: flex; justify-content: center; width: 100%;">
+                </div>
 
                 <p class="mt-5 text-center text-sm text-slate-400 font-medium">
                     Belum punya akun? <a href="src/auth/register.php" class="text-blue-600 font-black hover:underline">Daftar disini</a>

@@ -52,6 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
         .input-field {
@@ -142,6 +143,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         Daftar Sekarang <i class="fas fa-arrow-right ml-2"></i>
                     </button>
                 </form>
+
+                <!-- Divider -->
+                <div class="flex items-center gap-3 my-5">
+                    <div class="flex-1 h-px bg-slate-200"></div>
+                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">atau</span>
+                    <div class="flex-1 h-px bg-slate-200"></div>
+                </div>
+
+                <!-- Google Login Button -->
+                <div id="g_id_onload"
+                     data-client_id="YOUR_GOOGLE_CLIENT_ID_HERE"
+                     data-context="signup"
+                     data-ux_mode="popup"
+                     data-login_uri="<?php echo (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/src/auth/google_callback.php'; ?>"
+                     data-auto_prompt="false">
+                </div>
+                <div class="g_id_signin"
+                     data-type="standard"
+                     data-shape="pill"
+                     data-theme="outline"
+                     data-text="signup_with"
+                     data-size="large"
+                     data-logo_alignment="left"
+                     style="display: flex; justify-content: center; width: 100%;">
+                </div>
+
             <?php endif; ?>
 
             <p class="mt-8 text-center text-xs text-slate-500 font-bold">
