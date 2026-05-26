@@ -153,7 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <!-- Google Login Button -->
                 <div id="g_id_onload"
-                     data-client_id="YOUR_GOOGLE_CLIENT_ID_HERE"
+                     data-client_id="550304919551-ps7vlgtr9jkseiqjpavvo1ccm368e4l2.apps.googleusercontent.com"
                      data-context="signup"
                      data-ux_mode="popup"
                      data-login_uri="<?php echo (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/src/auth/google_callback.php'; ?>"
