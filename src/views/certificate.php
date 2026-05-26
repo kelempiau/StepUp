@@ -33,6 +33,7 @@ if (!$topic) die("Topic not found (" . htmlspecialchars($topic_slug) . ").");
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232563eb'><path d='M13 2L3 14h9l-1 8 10-12h-9l1-8z'/></svg>">
     <title>Sertifikat Kelulusan - <?php echo htmlspecialchars($topic['title']) ?></title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
