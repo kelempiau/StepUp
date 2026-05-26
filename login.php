@@ -3,6 +3,10 @@
 session_start();
 require_once 'config/db.php';
 
+$is_https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') 
+            || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
+$protocol = $is_https ? 'https' : 'http';
+
 if (isset($_SESSION['user_id'])) {
     header("Location: " . ($_SESSION['role'] === 'admin' ? "src/admin/dashboard.php" : "src/views/dashboard.php"));
     exit;
@@ -131,7 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                          data-client_id="550304919551-ps7vlgtr9jkseiqjpavvo1ccm368e4l2.apps.googleusercontent.com"
                          data-context="signin"
                          data-ux_mode="popup"
-                         data-login_uri="<?php echo (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/src/auth/google_callback.php'; ?>"
+                         data-login_uri="<?php echo $protocol . '://' . $_SERVER['HTTP_HOST'] . '/src/auth/google_callback.php'; ?>"
                          data-auto_prompt="false">
                     </div>
                     <div class="g_id_signin mb-3"
@@ -175,7 +179,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Debugging & checking helper for Google Login
         window.addEventListener('load', function() {
-            const redirectUri = "<?php echo (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/src/auth/google_callback.php'; ?>";
+            const redirectUri = "<?php echo $protocol . '://' . $_SERVER['HTTP_HOST'] . '/src/auth/google_callback.php'; ?>";
             console.log("[Google OAuth Debug] Expected Redirect URI: ", redirectUri);
             console.log("[Google OAuth Debug] Current Domain Origin: ", window.location.origin);
             

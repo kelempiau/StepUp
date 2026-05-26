@@ -4,6 +4,10 @@ session_start();
 require_once '../../config/db.php';
 require_once '../helpers/mailer.php';
 
+$is_https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') 
+            || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
+$protocol = $is_https ? 'https' : 'http';
+
 $error = '';
 $success = '';
 
@@ -157,7 +161,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                      data-client_id="550304919551-ps7vlgtr9jkseiqjpavvo1ccm368e4l2.apps.googleusercontent.com"
                      data-context="signup"
                      data-ux_mode="popup"
-                     data-login_uri="<?php echo (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/src/auth/google_callback.php'; ?>"
+                     data-login_uri="<?php echo $protocol . '://' . $_SERVER['HTTP_HOST'] . '/src/auth/google_callback.php'; ?>"
                      data-auto_prompt="false">
                 </div>
                 <div class="g_id_signin"
