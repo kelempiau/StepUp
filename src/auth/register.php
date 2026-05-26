@@ -21,13 +21,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         try {
             $hashed = password_hash($password, PASSWORD_DEFAULT);
+            $token = bin2hex(random_bytes(16)); // Generate random token
             
-            $stmt = $pdo->prepare("INSERT INTO users (full_name, username, email, password, role, is_verified) VALUES (?, ?, ?, ?, 'student', 1)");
-            $stmt->execute([$full_name, $username, $email, $hashed]);
+            $stmt = $pdo->prepare("INSERT INTO users (full_name, username, email, password, role, is_verified, verification_token) VALUES (?, ?, ?, ?, 'student', 0, ?)");
+            $stmt->execute([$full_name, $username, $email, $hashed, $token]);
             
-            // Langsung redirect ke login
-            header("Location: ../../login.php?msg=registered");
-            exit;
+            // Send Real Email
+            if (sendVerificationEmail($email, $full_name, $token)) {
+                $success = "Registrasi Berhasil! Kami telah mengirimkan link verifikasi ke email <b>$email</b>. Silakan cek Inbox atau folder Spam kamu.";
+            } else {
+                // If mail fails, still register but tell user to contact admin (or delete the user to retry)
+                $success = "Akun berhasil dibuat, namun gagal mengirim email verifikasi ke <b>$email</b>. Silakan hubungi admin atau coba login nanti.";
+            }
         } catch (PDOException $e) {
             if ($e->getCode() == 23000) {
                 $error = "Username atau Email sudah digunakan. Coba yang lain!";
