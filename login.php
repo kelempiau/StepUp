@@ -53,8 +53,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .inp { width:100%; padding:.875rem 1.125rem; border:2px solid #e2e8f0; border-radius:9999px; background:#f8fafc; color:#0f172a; font-weight:600; font-size:.9rem; outline:none; transition:all .2s; }
         .inp:focus { border-color:#2563eb; background:#fff; box-shadow:0 0 0 4px rgba(37,99,235,.1); }
         .inp::placeholder { color:#cbd5e1; font-weight:500; }
+        body { overflow: hidden; }
+        .g_id_signin { display: flex; justify-content: center; width: 100%; }
         @keyframes up { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
-        .card { animation: up .5s ease; }
+        .g_id_signin button { @apply w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-black rounded-full transition-all shadow-xl hover:scale-[1.02] active:scale-95 uppercase tracking-widest text-sm; }
         .blob1 { position:absolute; width:500px; height:500px; border-radius:50%; background:radial-gradient(circle,rgba(99,102,241,.18),transparent 70%); top:-150px; right:-100px; animation:float1 8s ease-in-out infinite; pointer-events: none; }
         .blob2 { position:absolute; width:400px; height:400px; border-radius:50%; background:radial-gradient(circle,rgba(59,130,246,.15),transparent 70%); bottom:-100px; left:-80px; animation:float2 10s ease-in-out infinite; pointer-events: none; }
         @keyframes float1 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(30px,-30px) scale(1.05)} }
@@ -63,11 +65,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body class="bg-[#f0f4ff]">
     <!-- Overflow containment wrapper for background blobs -->
-    <div class="relative w-full min-h-screen overflow-hidden flex flex-col items-center justify-center p-4">
+    <div class="relative w-full h-screen overflow-hidden flex items-center justify-center p-4">
         <div class="blob1"></div>
         <div class="blob2"></div>
 
-        <div class="relative z-[20] w-full max-w-sm mx-auto card pointer-events-auto my-auto">
+        <div class="relative z-[20] w-full max-w-sm mx-auto card pointer-events-auto">
             <!-- Card -->
             <div class="bg-white/80 backdrop-blur-2xl [ -webkit-backdrop-filter:blur(40px); ] border border-white/70 rounded-3xl shadow-[0_20px_60px_rgba(37,99,235,.12)] overflow-hidden">
 
