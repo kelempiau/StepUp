@@ -1,4 +1,3 @@
-
 <?php
 // src/views/challenge_quiz.php
 session_start();

@@ -8,16 +8,7 @@ header('Content-Type: application/json');
 if (!isset($_SESSION['user_id'])) { http_response_code(403); echo json_encode(['success'=>false]); exit; }
 $uid = $_SESSION['user_id'];
 
-// Auto-create table
-try {
-    $pdo->exec("CREATE TABLE IF NOT EXISTS todos (
-        id           INT AUTO_INCREMENT PRIMARY KEY,
-        user_id      INT NOT NULL,
-        task         VARCHAR(255) NOT NULL,
-        is_completed TINYINT(1) DEFAULT 0,
-        created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    ) ENGINE=MyISAM");
-} catch(Exception $e) {}
+// Auto-create table removed
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';

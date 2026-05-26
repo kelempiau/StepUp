@@ -12,19 +12,6 @@ require_once '../../config/db.php';
 
 // Auto-create tables if they don't exist (safe on any host)
 try {
-    $pdo->exec("CREATE TABLE IF NOT EXISTS user_preferences (
-        id INT AUTO_INCREMENT PRIMARY KEY, 
-        user_id INT NOT NULL UNIQUE, 
-        bg_type VARCHAR(20) DEFAULT 'color',
-        bg_value TEXT, 
-        glass_opacity INT DEFAULT 50,
-        theme VARCHAR(10) DEFAULT 'light', 
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-    ) ENGINE=MyISAM");
-    $pdo->exec("CREATE TABLE IF NOT EXISTS todos (id INT AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, task VARCHAR(255) NOT NULL, is_completed TINYINT(1) DEFAULT 0, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP) ENGINE=MyISAM");
-    $pdo->exec("CREATE TABLE IF NOT EXISTS activity_log (id INT AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, activity_date DATE NOT NULL, UNIQUE KEY (user_id, activity_date)) ENGINE=MyISAM");
-    $pdo->exec("CREATE TABLE IF NOT EXISTS calendar_events (id INT AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, event_date DATE NOT NULL, title VARCHAR(255) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP) ENGINE=MyISAM");
-    $pdo->exec("CREATE TABLE IF NOT EXISTS inbox (id INT AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, type VARCHAR(50) DEFAULT 'system', title VARCHAR(255), content TEXT, is_read TINYINT(1) DEFAULT 0, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP) ENGINE=MyISAM");
     try { $pdo->exec("ALTER TABLE inbox CHANGE message content TEXT"); } catch(Exception $e) {}
     try { $pdo->exec("ALTER TABLE inbox ADD COLUMN request_id INT DEFAULT NULL AFTER type"); } catch(Exception $e) {}
 
@@ -42,7 +29,6 @@ try {
     } catch (Exception $e) {
     }
     try {
-        $pdo->exec("CREATE TABLE IF NOT EXISTS challenge_questions (
             id INT AUTO_INCREMENT PRIMARY KEY,
             challenge_id INT NOT NULL,
             question_text TEXT NOT NULL,

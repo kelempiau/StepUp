@@ -24,9 +24,6 @@ $score   = isset($input['score'])   ? (int)$input['score']    : 0;
 
 try {
     // 3. Database Self-Healing (Consistently MyISAM for InfinityFree)
-    $pdo->exec("CREATE TABLE IF NOT EXISTS quiz_scores (id INT AUTO_INCREMENT PRIMARY KEY, user_id INT, subject_slug VARCHAR(255), topic_slug VARCHAR(255), module_slug VARCHAR(255), score INT, created_at DATETIME) ENGINE=MyISAM");
-    $pdo->exec("CREATE TABLE IF NOT EXISTS progress (id INT AUTO_INCREMENT PRIMARY KEY, user_id INT, subject_slug VARCHAR(255), topic_slug VARCHAR(255), module_slug VARCHAR(255), is_completed TINYINT(1) DEFAULT 0, completed_step INT DEFAULT 1, created_at DATETIME) ENGINE=MyISAM");
-    $pdo->exec("CREATE TABLE IF NOT EXISTS activity_log (id INT AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, activity_date DATE, action TEXT, created_at DATETIME, UNIQUE KEY user_date (user_id, activity_date)) ENGINE=MyISAM");
 
     $now = date('Y-m-d H:i:s');
 

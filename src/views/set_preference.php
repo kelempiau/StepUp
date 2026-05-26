@@ -22,31 +22,7 @@ if (!isset($_SESSION['user_id'])) {
 $uid    = $_SESSION['user_id'];
 $action = $_REQUEST['action'] ?? '';
 
-// Auto-create table
-try {
-    $pdo->exec("CREATE TABLE IF NOT EXISTS user_preferences (
-        id         INT AUTO_INCREMENT PRIMARY KEY,
-        user_id    INT NOT NULL,
-        bg_type    VARCHAR(20) DEFAULT 'color',
-        bg_value   TEXT,
-        glass_opacity INT DEFAULT 50,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        UNIQUE KEY uk_user (user_id)
-    ) ENGINE=MyISAM");
-} catch(Exception $e) {}
-
-try {
-    $pdo->exec("CREATE TABLE IF NOT EXISTS friends_requests (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        sender_id INT NOT NULL,
-        receiver_id INT NOT NULL,
-        status ENUM('pending', 'accepted', 'rejected') DEFAULT 'pending',
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        UNIQUE KEY uk_request (sender_id, receiver_id),
-        FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
-        FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE
-    ) ENGINE=InnoDB");
-} catch(Exception $e) {}
+// Auto-create table removed
 
 try {
     // ── Save Profile (Name, Title & Password) ─────────

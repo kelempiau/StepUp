@@ -12,16 +12,7 @@ if (!isset($_SESSION['user_id'])) {
 require_once '../../config/db.php';
 $uid = $_SESSION['user_id'];
 
-// Auto-create table (safe on any host)
-try {
-    $pdo->exec("CREATE TABLE IF NOT EXISTS chat_logs (
-        id         INT AUTO_INCREMENT PRIMARY KEY,
-        user_id    INT NOT NULL,
-        message    TEXT NOT NULL,
-        response   TEXT NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    ) ENGINE=MyISAM");
-} catch (Exception $e) {}
+// Auto-create table removed
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // POST: save a chat exchange
