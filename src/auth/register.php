@@ -144,7 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <button type="button" onclick="togglePass('pw2', 'eye2')" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-500 transition-colors"><i id="eye2" class="fas fa-eye"></i></button>
                         </div>
                     </div>
-                    <button type="submit" class="w-full py-5 bg-blue-600 hover:bg-blue-700 text-white font-black rounded-full transition-all shadow-xl shadow-blue-500/30 hover:scale-[1.02] active:scale-95 mt-4 uppercase tracking-widest text-xs">
+                    <button type="submit" class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full transition-all shadow-xl shadow-blue-500/30 hover:scale-[1.02] active:scale-95 mt-4 uppercase tracking-widest text-xs">
                         Daftar Sekarang <i class="fas fa-arrow-right ml-2"></i>
                     </button>
                 </form>

@@ -118,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                         </div>
                         <button type="submit"
-                            class="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-black rounded-full transition-all shadow-xl shadow-blue-500/25 hover:scale-[1.02] active:scale-95 uppercase tracking-widest text-sm mt-2">
+                            class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full transition-all shadow-xl shadow-blue-500/25 hover:scale-[1.02] active:scale-95 uppercase tracking-widest text-xs mt-2">
                             Masuk Sekarang <i class="fas fa-arrow-right ml-2"></i>
                         </button>
                     </form>
@@ -151,7 +151,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     <!-- Guest Access Button -->
                     <a href="src/views/dashboard.php"
-                       class="flex items-center justify-center gap-2 w-full py-3 border-2 border-slate-200 hover:border-indigo-400 text-slate-500 hover:text-indigo-600 font-bold rounded-full transition-all hover:bg-indigo-50 text-sm group">
+                       class="flex items-center justify-center gap-2 w-full py-2.5 border-2 border-slate-200 hover:border-indigo-400 text-slate-500 hover:text-indigo-600 font-semibold rounded-full transition-all hover:bg-indigo-50 text-xs group">
                         <i class="fas fa-eye text-slate-400 group-hover:text-indigo-500 transition"></i>
                         Lihat sebagai Tamu
                     </a>
