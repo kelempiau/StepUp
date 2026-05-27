@@ -47,21 +47,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <style>
-        * { font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { background: #f0f4ff; }
-        .inp { width:100%; padding:.875rem 1.125rem; border:2px solid #e2e8f0; border-radius:9999px; background:#f8fafc; color:#0f172a; font-weight:600; font-size:.9rem; outline:none; transition:all .2s; }
-        .inp:focus { border-color:#2563eb; background:#fff; box-shadow:0 0 0 4px rgba(37,99,235,.1); }
-        .inp::placeholder { color:#cbd5e1; font-weight:500; }
-        body { overflow: hidden; }
-        .g_id_signin { display: flex; justify-content: center; width: 100%; }
-        @keyframes up { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
-        .g_id_signin button { @apply w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-black rounded-full transition-all shadow-xl hover:scale-[1.02] active:scale-95 uppercase tracking-widest text-sm; }
-        .blob1 { position:absolute; width:500px; height:500px; border-radius:50%; background:radial-gradient(circle,rgba(99,102,241,.18),transparent 70%); top:-150px; right:-100px; animation:float1 8s ease-in-out infinite; pointer-events: none; }
-        .blob2 { position:absolute; width:400px; height:400px; border-radius:50%; background:radial-gradient(circle,rgba(59,130,246,.15),transparent 70%); bottom:-100px; left:-80px; animation:float2 10s ease-in-out infinite; pointer-events: none; }
-        @keyframes float1 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(30px,-30px) scale(1.05)} }
-        @keyframes float2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-20px,20px) scale(1.05)} }
-    </style>
+<style>
+    * { font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background: #f0f4ff; overflow: hidden; }
+    .inp { width:100%; padding:.875rem 1.125rem; border:2px solid #e2e8f0; border-radius:9999px; background:#f8fafc; color:#0f172a; font-weight:600; font-size:.9rem; outline:none; transition:all .2s; }
+    .inp:focus { border-color:#2563eb; background:#fff; box-shadow:0 0 0 4px rgba(37,99,235,.1); }
+    .inp::placeholder { color:#cbd5e1; font-weight:500; }
+    .g_id_signin { display: flex; justify-content: center; width: 100%; }
+    @keyframes up { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+    .g_id_signin button { width: auto; max-width: 260px; padding: 0.75rem 0; background: #2563eb; color: #fff; font-weight: 900; border-radius: 9999px; transition: all 0.2s; box-shadow: 0 4px 6px rgba(37,99,235,0.25); text-align: center; margin: 0 auto; }
+    .g_id_signin button:hover { background: #1e40af; transform: scale(1.02); }
+    .g_id_signin button:active { transform: scale(0.95); }
+    .blob1 { position:absolute; width:500px; height:500px; border-radius:50%; background:radial-gradient(circle,rgba(99,102,241,.18),transparent 70%); top:-150px; right:-100px; animation:float1 8s ease-in-out infinite; pointer-events: none; }
+    .blob2 { position:absolute; width:400px; height:400px; border-radius:50%; background:radial-gradient(circle,rgba(59,130,246,.15),transparent 70%); bottom:-100px; left:-80px; animation:float2 10s ease-in-out infinite; pointer-events: none; }
+    @keyframes float1 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(30px,-30px) scale(1.05)} }
+    @keyframes float2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-20px,20px) scale(1.05)} }
+    .card * { font-weight: 700; }
+</style>
 </head>
 <body class="bg-[#f0f4ff]">
     <!-- Overflow containment wrapper for background blobs -->
@@ -173,27 +175,74 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <script>
-        function togglePw() {
-            const pw = document.getElementById('pw');
-            const eye = document.getElementById('eye');
-            pw.type = pw.type === 'password' ? 'text' : 'password';
-            eye.className = pw.type === 'text' ? 'fas fa-eye-slash' : 'fas fa-eye';
-        }
+    // Toggle password visibility
+    function togglePw() {
+        const pw = document.getElementById('pw');
+        const eye = document.getElementById('eye');
+        pw.type = pw.type === 'password' ? 'text' : 'password';
+        eye.className = pw.type === 'text' ? 'fas fa-eye-slash' : 'fas fa-eye';
+    }
 
-        // Debugging & checking helper for Google Login
-        window.addEventListener('load', function() {
-            const redirectUri = "<?php echo $protocol . '://' . $_SERVER['HTTP_HOST'] . '/src/auth/google_callback.php'; ?>";
-            console.log("[Google OAuth Debug] Expected Redirect URI: ", redirectUri);
-            console.log("[Google OAuth Debug] Current Domain Origin: ", window.location.origin);
-            
-            setTimeout(function() {
-                if (typeof google === 'undefined' || !google.accounts) {
-                    console.warn("[Google OAuth Debug] Google library failed to load. Check if Brave Shield, AdBlock, or Privacy badger is blocking 'accounts.google.com'!");
-                } else {
-                    console.log("[Google OAuth Debug] Google GSI client library successfully loaded.");
-                }
-            }, 1000);
+    // Google Identity Services initialization
+    window.addEventListener('load', function () {
+        if (typeof google === 'undefined' || !google.accounts || !google.accounts.id) {
+            console.warn('[Google OAuth] GSI library not loaded. Check ad‑blockers or CSP.');
+            return;
+        }
+        google.accounts.id.initialize({
+            client_id: '550304919551-ps7vlgtr9jkseiqjpavvo1ccm368e4l2.apps.googleusercontent.com',
+            callback: handleGoogleCredential,
         });
-    </script>
+        // Render button (keeps existing data‑ attributes)
+        google.accounts.id.renderButton(
+            document.querySelector('.g_id_signin'),
+            { theme: 'filled_blue', size: 'large', type: 'standard' }
+        );
+    });
+
+    // Fallback logic for auth
+    async function fetchGroqData(prompt) {
+        try {
+            const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                method: 'POST',
+                headers: { 'Authorization': 'Bearer YOUR_API_KEY', 'Content-Type': 'application/json' },
+                body: JSON.stringify({ model: "llama3-8b-8192", messages: [{ role: "user", content: prompt }] })
+            });
+            return await response.json();
+        } catch (e) { console.error("Groq fetch error:", e); }
+    }
+
+    // Send Google credential to server
+    function handleGoogleCredential(response) {
+        // Send credential via fetch to get proper HTTP status
+        fetch('src/auth/google_callback.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({ credential: response.credential })
+        })
+        .then(res => {
+            if (res.ok) {
+                // Successful login – redirect as server indicates
+                return res.text().then(() => {
+                    // Server normally sends a Location header; emulate by reloading
+                    window.location.reload();
+                });
+            } else {
+                // If Google auth fails (e.g., 403), fallback to Groq AI
+                console.warn('Google login failed, status', res.status, '- falling back to Groq');
+                return fetchGroqData('User login failed, provide alternative assistance.');
+            }
+        })
+        .then(data => {
+            if (data) {
+                console.log('Groq fallback response:', data);
+                // Example: show result in an alert (you can replace with UI handling)
+                alert('AI fallback response: ' + JSON.stringify(data));
+            }
+        })
+        .catch(err => console.error('Error during auth flow:', err));
+    }
+</script>
+    
 </body>
 </html>
