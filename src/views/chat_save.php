@@ -1,5 +1,6 @@
 <?php
 // chat_save.php - Save chat history to database
+require_once '../../config/db.php';
 session_start();
 header('Content-Type: application/json');
 
@@ -7,8 +8,6 @@ if (!isset($_SESSION['user_id'])) {
     echo json_encode(['success' => false]);
     exit;
 }
-
-require_once '../../config/db.php';
 
 $userMsg = $_POST['user_message'] ?? '';
 $aiMsg = $_POST['ai_response'] ?? '';

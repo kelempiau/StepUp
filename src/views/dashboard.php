@@ -2,13 +2,13 @@
 // src/views/dashboard.php — StepUp v4
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
+
+require_once '../../config/db.php';
 session_start();
 
 // Guest mode: allow access without login, but restrict features
 $isGuest = !isset($_SESSION['user_id']);
 $userId  = $isGuest ? null : $_SESSION['user_id'];
-
-require_once '../../config/db.php';
 
 // Auto-create tables if they don't exist (safe on any host)
 try {

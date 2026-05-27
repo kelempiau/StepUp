@@ -1,5 +1,6 @@
 <?php
 // chat_load.php - Load chat history from database
+require_once '../../config/db.php';
 session_start();
 header('Content-Type: application/json');
 
@@ -7,8 +8,6 @@ if (!isset($_SESSION['user_id'])) {
     echo json_encode(['success' => false]);
     exit;
 }
-
-require_once '../../config/db.php';
 
 try {
     $stmt = $pdo->prepare("SELECT message, response, created_at FROM chat_logs WHERE user_id = ? ORDER BY created_at ASC LIMIT 50");

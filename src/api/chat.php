@@ -1,6 +1,7 @@
 <?php
 // src/api/chat.php — Unified Chat API (save + load) with auto-create table
 error_reporting(0);
+require_once '../../config/db.php';
 session_start();
 header('Content-Type: application/json');
 
@@ -8,8 +9,6 @@ if (!isset($_SESSION['user_id'])) {
     echo json_encode(['success' => false, 'error' => 'Not authenticated']);
     exit;
 }
-
-require_once '../../config/db.php';
 $uid = $_SESSION['user_id'];
 
 // Auto-create table removed
