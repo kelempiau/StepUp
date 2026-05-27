@@ -69,7 +69,19 @@ try {
 
     // Register DB Session handler
     $handler = new DatabaseSessionHandler($pdo);
+    
+    // If session is already active, close it temporarily to change handler
+    $session_active = (session_status() === PHP_SESSION_ACTIVE);
+    if ($session_active) {
+        session_write_close();
+    }
+    
     session_set_save_handler($handler, true);
+    
+    // Restart session with the new handler if it was active
+    if ($session_active) {
+        session_start();
+    }
 } catch (Exception $e) {
     error_log("DB Session Setup Failed: " . $e->getMessage());
 }
