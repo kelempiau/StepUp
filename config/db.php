@@ -16,6 +16,11 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     $pdo->exec("SET time_zone = '+07:00'");
+    
+    // Load Database session handler globally
+    if (file_exists(__DIR__ . '/session.php')) {
+        require_once __DIR__ . '/session.php';
+    }
 } catch(PDOException $e) {
     // If we are in an API request (checking header or constant), throwing is better
     // But for backward compatibility with existing non-API pages, we might need to be careful.

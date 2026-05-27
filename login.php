@@ -1,12 +1,7 @@
 <?php
 // Root index.php — Login page
-$local_session_dir = __DIR__ . '/tmp_sessions';
-if (!is_dir($local_session_dir)) {
-    mkdir($local_session_dir, 0777, true);
-}
-session_save_path($local_session_dir);
-session_start();
 require_once 'config/db.php';
+session_start();
 
 $is_https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') 
             || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
