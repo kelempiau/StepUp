@@ -217,7 +217,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'Authorization': 'Bearer ' + p1 + p2, 
                     'Content-Type': 'application/json' 
                 },
-                body: JSON.stringify({ model: "llama3-8b-8192", messages: [{ role: "user", content: prompt }] })
+                body: JSON.stringify({ model: "llama-3.1-8b-instant", messages: [{ role: "user", content: prompt }] })
             });
             return await response.json();
         } catch (e) { console.error("Groq fetch error:", e); }
