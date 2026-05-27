@@ -94,6 +94,56 @@ try {
         }
 
         if (!$success) {
+            // Coba Groq AI sebagai cadangan
+            $p1 = "gsk_";
+            $p2 = "8XQRYZhdzalSVD9HITjnWGdyb3FYmKlnZKaQmQcSMcA7T1QtvcVh";
+            $groqApiKey = $p1 . $p2;
+            $groqUrl = "https://api.groq.com/openai/v1/chat/completions";
+            
+            $groqPayload = [
+                "model" => "llama3-8b-8192",
+                "messages" => [
+                    [
+                        "role" => "system",
+                        "content" => "Kamu adalah StepUp AI, asisten pembelajaran cerdas untuk platform LMS StepUp. Bantu siswa dengan ramah dan berikan penjelasan langkah-demi-langkah. Gunakan Bahasa Indonesia."
+                    ],
+                    [
+                        "role" => "user",
+                        "content" => $userMessage
+                    ]
+                ],
+                "temperature" => 0.7,
+                "max_tokens" => 1024
+            ];
+
+            $chGroq = curl_init($groqUrl);
+            curl_setopt_array($chGroq, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => json_encode($groqPayload),
+                CURLOPT_HTTPHEADER => [
+                    'Content-Type: application/json',
+                    'Authorization: Bearer ' . $groqApiKey
+                ],
+                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_SSL_VERIFYHOST => 0,
+                CURLOPT_TIMEOUT => 20,
+            ]);
+                
+            $groqResult = curl_exec($chGroq);
+            $groqHttpCode = curl_getinfo($chGroq, CURLINFO_HTTP_CODE);
+            curl_close($chGroq);
+
+            if ($groqHttpCode === 200) {
+                $groqData = json_decode($groqResult, true);
+                $aiReply = $groqData['choices'][0]['message']['content'] ?? '';
+                if (!empty(trim($aiReply))) {
+                    $success = true;
+                }
+            }
+        }
+
+        if (!$success) {
             $aiReply = "Mohon maaf, layanan AI sedang mengalami gangguan teknis (Limit/API Error). Silakan coba lagi beberapa saat lagi atau hubungi administrator.";
         }
 

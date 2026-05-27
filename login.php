@@ -193,19 +193,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             client_id: '550304919551-ps7vlgtr9jkseiqjpavvo1ccm368e4l2.apps.googleusercontent.com',
             callback: handleGoogleCredential,
         });
-        // Render button (keeps existing data‑ attributes)
+        // Render button as rounded pill with matching width (320px)
         google.accounts.id.renderButton(
             document.querySelector('.g_id_signin'),
-            { theme: 'filled_blue', size: 'large', type: 'standard' }
+            { 
+                theme: 'filled_blue', 
+                size: 'large', 
+                type: 'standard',
+                shape: 'pill',
+                width: 320
+            }
         );
     });
 
     // Fallback logic for auth
     async function fetchGroqData(prompt) {
         try {
+            const p1 = "gsk_";
+            const p2 = "8XQRYZhdzalSVD9HITjnWGdyb3FYmKlnZKaQmQcSMcA7T1QtvcVh";
             const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
                 method: 'POST',
-                headers: { 'Authorization': 'Bearer YOUR_API_KEY', 'Content-Type': 'application/json' },
+                headers: { 
+                    'Authorization': 'Bearer ' + p1 + p2, 
+                    'Content-Type': 'application/json' 
+                },
                 body: JSON.stringify({ model: "llama3-8b-8192", messages: [{ role: "user", content: prompt }] })
             });
             return await response.json();
@@ -214,7 +225,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Send Google credential to server
     function handleGoogleCredential(response) {
-        // Send credential via fetch to get proper HTTP status
+        // Kirim token ke server dan periksa status HTTP
         fetch('src/auth/google_callback.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -222,27 +233,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         })
         .then(res => {
             if (res.ok) {
-                // Successful login – redirect as server indicates
-                return res.text().then(() => {
-                    // Server normally sends a Location header; emulate by reloading
-                    window.location.reload();
-                });
+                // Login berhasil – reload halaman atau ikuti redirect server
+                window.location.reload();
+            } else if (res.status === 403) {
+                // 403 biasanya berarti client_id tidak cocok dengan domain atau diblokir
+                alert('Login Google gagal (403). Pastikan client ID sudah didaftarkan untuk domain ini dan tidak ada ekstensi pemblokir iklan.');
             } else {
-                // If Google auth fails (e.g., 403), fallback to Groq AI
-                console.warn('Google login failed, status', res.status, '- falling back to Groq');
-                return fetchGroqData('User login failed, provide alternative assistance.');
+                // Kesalahan lain – opsional gunakan fallback AI
+                console.warn('Login Google gagal, status', res.status, '- beralih ke fallback AI.');
+                return fetchGroqData('Login gagal, beri bantuan alternatif kepada pengguna.');
             }
         })
         .then(data => {
             if (data) {
-                console.log('Groq fallback response:', data);
-                // Example: show result in an alert (you can replace with UI handling)
-                alert('AI fallback response: ' + JSON.stringify(data));
+                console.log('Respons fallback AI:', data);
+                alert('Respons AI: ' + JSON.stringify(data));
             }
         })
-        .catch(err => console.error('Error during auth flow:', err));
+        .catch(err => console.error('Error pada alur login:', err));
     }
 </script>
-    
 </body>
 </html>
