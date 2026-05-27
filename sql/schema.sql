@@ -279,4 +279,4 @@ CREATE TABLE IF NOT EXISTS inbox (
 
 -- Default Admin (Password: admin123)
 INSERT IGNORE INTO users (full_name, username, email, password, role, is_verified) 
-VALUES ('Administrator', 'admin', 'admin@stepup.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin', 1);
+VALUES ('Administrator', 'admin', 'admin@stepup.com', '$2y$10$pcS/mswkCmEiF.AOZg5lmuEGTgGQ6rdoBqL.tRrm4AA48a4F.LDrm', 'admin', 1);
